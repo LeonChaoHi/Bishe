@@ -4,75 +4,84 @@ from PIL import Image
 from sklearn.model_selection import train_test_split
 import cv2
 
-label_index = {'yurongfu': 7, 'maozi': 6, 'weiyi': 5, 'waitao': 4, 'chenshan': 3, 'kuzi': 2, 'qunzi': 1, 'duanxiu': 0};
+
+def get_euler_angles(txt_path):
+    with open(txt_path, "r") as f:
+        # str_ = f.read()
+        data_lists = f.readlines()
+
+    dataset= []
+    # loop each line
+    for i, data in enumerate(data_lists):
+        data1 = data.strip('\n')  # omit LF sign
+        data2 = data1.split(' ')[:3] # 把tab作为间隔符
+        dataset.append(data2)  # 把这一行的结果作为元素加入列表dataset
+        if i == 2:
+            break
+    dataset = np.array(dataset)
+    print(dataset)
+    R = dataset.astype(dtype='float32')
+    # change to euler angle
+    roll = -np.arctan2(R[1][0], R[0][0]) * 180 / np.pi
+    yaw = -np.arctan2(-R[2][0], np.sqrt(R[2][1] ** 2 + R[2][2] ** 2)) * 180 / np.pi
+    pitch = np.arctan2(R[2][1], R[2][2]) * 180 / np.pi
+
+    return np.array([yaw, pitch, roll])
 
 
-def loadsample(filename_path, train_x_shape):
-    # (220, 220, 3)
-    img = Image.open(filename_path).convert("RGB")
-    # print(train_x_shape[0], train_x_shape[1], train_x_shape[2], train_x_shape[3]) 17670 32 32 3
-    img = img.resize((train_x_shape[1], train_x_shape[2]), Image.ANTIALIAS)
+def load_sample(image_path, notation_path, img_tgt_shape):
+    # Get image array
+    img = Image.open(image_path).convert("RGB")
+    img = img.resize((img_tgt_shape[0], img_tgt_shape[1]), Image.ANTIALIAS)
     img = np.array(img)
-    if img.shape != tuple(train_x_shape[1:]):
-        print(img.shape, filename_path)
-    # print("filename_path:", filename_path)
-    filename_path_split = filename_path.split("/")
-    # print("filename_path_split:", filename_path_split)['..', 'data', 'kuzi', 'img_02024.jpg']
-    segment = filename_path_split[-2]
-    label = label_index[segment]
+    if img.shape != tuple(img_tgt_shape):    # TODO: omit batch size??? Necessary?(changed)
+        print(img.shape, image_path)
+    # Get label array
+    label = get_euler_angles(notation_path)
     return (img, label)
 
 
-def load_data(datadir, input_shape, partition_proportion=0.95):
-    batch_size = 2000  # 样本的总数量
-    examples = []
+def load_data(img_datadir, label_dir, input_shape, partition_proportion=0.6):
+    batch_size = 2000  # TODO: dummy batch size
 
-    train_x_shape = (batch_size,) + input_shape
-    train_y_shape = (batch_size,)
-    # print("train_x_shape:", train_x_shape)
-    # print("train_y_shape:", train_y_shape)
-    train_x = np.empty(train_x_shape, dtype="uint8")  # 这是训练集的train_x
-    train_y = np.empty(train_y_shape, dtype="uint8")  # 这是训练集train_y
-    print("train_x_shape:", train_x_shape)
-    print("train_y_shape:", train_y_shape)
+    data_x = []
+    data_y = []
+
     # 遍历所有文件，加入到train_x,train_y中。
-    samples_index = 0
-    dir_list = os.listdir(datadir)
-    # print("dir_list:", dir_list) dir_list: ['chenshan', 'kuzi', 'waitao',
-    count = 0
-    for dir in dir_list:
-        if not dir.isdigit():   # pass non examples folder
-            continue
-        filename_list = os.listdir(dir)
-        # print("filename_list:", filename_list)
-        # print("len(filename_list)",len(filename_list))
-        for filename in filename_list:
-            # 这里获取标签和样本
-            if filename.endswith(".jpg"):
-                filename_path = os.path.join(dir, filename)
-                # print("filename_path:", filename_path)
-                count = count + 1
-                print("count:", count)
-                classNums_dict[dir] = classNums_dict[dir] + 1
-                (img, label) = loadsample(filename_path, train_x_shape)
-                train_x[samples_index] = img
-                train_y[samples_index] = label
-                samples_index = samples_index + 1
-                # test 2
-                examples.append((img, label))
-        else:
-            print("不存在目录:", (classPath))
+    subdir_list = os.listdir(img_datadir)
+    samples_counter = 0
 
-    train_y = np.reshape(train_y, (len(train_y), 1))
-    print(len(train_x), len(train_y))
-    print("class distrubtion:", classNums_dict)
-    train_x, test_x, train_y, test_y = train_test_split(train_x, train_y, test_size=1 - partition_proportion, stratify=train_y)
-    print('part-train-%d,part-test-%d;total:%d' % (len(train_x), len(test_x), len(train_x) + len(test_x)));
+    for subdir in subdir_list:
+        if not subdir.isdigit():   # pass non-data folder
+            continue
+        img_lists = os.listdir(subdir)
+        for img_name in img_lists:
+            # get image to train_x
+            if img_name.endswith(".png"):
+                samples_counter = samples_counter + 1
+                # get paths of image and label
+                img_path = os.path.join(img_datadir, subdir, img_name)
+                label_path = os.path.join(label_dir, subdir, img_name[:12]+'pose.txt')
+                # load files
+                (img, label) = load_sample(img_path, notation_path=label_path, img_tgt_shape=input_shape)
+                data_x.append(img)
+                data_y.append(label)
+        print("count:", samples_counter)
+
+    data_x = np.array(data_x)
+    data_y = np.array(data_y)
+    # data_y = np.reshape(data_y, (len(train_y), 1))
+    # Split data into training and testing sets
+    train_x, test_x, train_y, test_y = train_test_split(data_x, data_y, test_size=1 - partition_proportion, stratify=data_y)
+
+    print('[load_data] Training set size: %d, Testing set size: %d; Total:%d' % (len(train_x), len(test_x), len(train_x) + len(test_x)))
     return train_x, train_y, test_x, test_y
 
 
 if __name__ == "__main__":
-    datadir = "/Users/leon/Downloads/Biwi Kinect Head Pose Database/hpdb_face_intercepted"
-    print("[mydata_provider] Images data directory:", datadir)
-    load_data(datadir, input_shape=(32, 32, 3), partition_proportion=0.4)
+    data_dir = "/Users/leon/Downloads/Biwi Kinect Head Pose Database/hpdb_face_intercepted"
+    label_dir = "/Users/leon/Downloads/Biwi Kinect Head Pose Database/hpdb"
+    print(" Images data directory:", datadir)
+    train_x, train_y, test_x, test_y = load_data(datadir, input_shape=(32, 32, 3), partition_proportion=0.4)
+    np.savez('hpdb_data', train_x=train_x, train_y=train_y, test_x=test_x, test_y=test_y)
 
