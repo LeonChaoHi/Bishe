@@ -2,9 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="14fde198-ed60-42c3-b63a-662ff168d4c3" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/head pose estimator/BIWI_groudtruth.py" beforeDir="false" afterPath="$PROJECT_DIR$/head pose estimator/BIWI_groudtruth.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/head pose estimator/mydata_provider.py" beforeDir="false" afterPath="$PROJECT_DIR$/head pose estimator/mydata_provider.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -36,14 +34,14 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/face detector" />
-    <property name="settings.editor.selected.configurable" value="preferences.keymap" />
+    <property name="settings.editor.selected.configurable" value="vcs.Git" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/face detector" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.BIWI_groudtruth">
+  <component name="RunManager" selected="Python.mydata_provider">
     <configuration name="BIWI_groudtruth" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="BISHE" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -57,27 +55,6 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <option name="SCRIPT_NAME" value="$PROJECT_DIR$/head pose estimator/BIWI_groudtruth.py" />
-      <option name="PARAMETERS" value="" />
-      <option name="SHOW_COMMAND_LINE" value="false" />
-      <option name="EMULATE_TERMINAL" value="false" />
-      <option name="MODULE_MODE" value="false" />
-      <option name="REDIRECT_INPUT" value="false" />
-      <option name="INPUT_FILE" value="" />
-      <method v="2" />
-    </configuration>
-    <configuration name="HOG_face_detector_batchprocess" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
-      <module name="BISHE" />
-      <option name="INTERPRETER_OPTIONS" value="" />
-      <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
-      <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/face detector" />
-      <option name="IS_MODULE_SDK" value="true" />
-      <option name="ADD_CONTENT_ROOTS" value="true" />
-      <option name="ADD_SOURCE_ROOTS" value="true" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/face detector/HOG_face_detector_batchprocess.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -128,6 +105,27 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
+    <configuration name="mydata_provider" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="BISHE" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/head pose estimator" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/head pose estimator/mydata_provider.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
     <configuration name="mymodel" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="BISHE" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -151,11 +149,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.mydata_provider" />
         <item itemvalue="Python.BIWI_groudtruth" />
         <item itemvalue="Python.mymodel" />
         <item itemvalue="Python.dlib_CNN_face_detector" />
         <item itemvalue="Python.deepgaze_cnn_head_pose_estimator_images" />
-        <item itemvalue="Python.HOG_face_detector_batchprocess" />
       </list>
     </recent_temporary>
   </component>
@@ -173,10 +171,10 @@
     <servers />
   </component>
   <component name="WindowStateProjectService">
-    <state x="447" y="260" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1585280138409">
+    <state x="447" y="260" key="#com.intellij.fileTypes.FileTypeChooser" timestamp="1585536926063">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state x="447" y="260" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1440.900@0.0.1440.900" timestamp="1585280138409" />
+    <state x="447" y="260" key="#com.intellij.fileTypes.FileTypeChooser/0.0.1440.900@0.0.1440.900" timestamp="1585536926063" />
     <state x="458" y="204" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1585391565636">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
@@ -185,26 +183,26 @@
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state width="879" height="466" key="DebuggerActiveHint/0.0.1440.900@0.0.1440.900" timestamp="1585126103730" />
-    <state width="1419" height="198" key="GridCell.Tab.0.bottom" timestamp="1585449548896">
+    <state width="1419" height="198" key="GridCell.Tab.0.bottom" timestamp="1585536999409">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1419" height="198" key="GridCell.Tab.0.bottom/0.0.1440.900@0.0.1440.900" timestamp="1585449548896" />
-    <state width="1419" height="198" key="GridCell.Tab.0.center" timestamp="1585449548895">
+    <state width="1419" height="198" key="GridCell.Tab.0.bottom/0.0.1440.900@0.0.1440.900" timestamp="1585536999409" />
+    <state width="1419" height="198" key="GridCell.Tab.0.center" timestamp="1585536999408">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1419" height="198" key="GridCell.Tab.0.center/0.0.1440.900@0.0.1440.900" timestamp="1585449548895" />
-    <state width="1419" height="198" key="GridCell.Tab.0.left" timestamp="1585449548894">
+    <state width="1419" height="198" key="GridCell.Tab.0.center/0.0.1440.900@0.0.1440.900" timestamp="1585536999408" />
+    <state width="1419" height="198" key="GridCell.Tab.0.left" timestamp="1585536999407">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1419" height="198" key="GridCell.Tab.0.left/0.0.1440.900@0.0.1440.900" timestamp="1585449548894" />
-    <state width="1419" height="198" key="GridCell.Tab.0.right" timestamp="1585449548895">
+    <state width="1419" height="198" key="GridCell.Tab.0.left/0.0.1440.900@0.0.1440.900" timestamp="1585536999407" />
+    <state width="1419" height="198" key="GridCell.Tab.0.right" timestamp="1585536999408">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1419" height="198" key="GridCell.Tab.0.right/0.0.1440.900@0.0.1440.900" timestamp="1585449548895" />
-    <state x="221" y="89" key="SettingsEditor" timestamp="1585498326564">
+    <state width="1419" height="198" key="GridCell.Tab.0.right/0.0.1440.900@0.0.1440.900" timestamp="1585536999408" />
+    <state x="221" y="89" key="SettingsEditor" timestamp="1585537689693">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state x="221" y="89" key="SettingsEditor/0.0.1440.900@0.0.1440.900" timestamp="1585498326564" />
+    <state x="221" y="89" key="SettingsEditor/0.0.1440.900@0.0.1440.900" timestamp="1585537689693" />
     <state width="720" height="450" key="XDebugger.FullValuePopup" timestamp="1585127589856">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
@@ -230,6 +228,11 @@
           <url>file://$PROJECT_DIR$/head pose estimator/BIWI_groudtruth.py</url>
           <line>20</line>
           <option name="timeStamp" value="14" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/head pose estimator/mydata_provider.py</url>
+          <line>89</line>
+          <option name="timeStamp" value="15" />
         </line-breakpoint>
       </breakpoints>
       <default-breakpoints>

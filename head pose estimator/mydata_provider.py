@@ -7,21 +7,19 @@ import cv2
 
 def get_euler_angles(txt_path):
     with open(txt_path, "r") as f:
-        # str_ = f.read()
         data_lists = f.readlines()
-
-    dataset= []
-    # loop each line
+    rot_matrix = []
+    # get rotation matrix
     for i, data in enumerate(data_lists):
         data1 = data.strip('\n')  # omit LF sign
         data2 = data1.split(' ')[:3] # 把tab作为间隔符
-        dataset.append(data2)  # 把这一行的结果作为元素加入列表dataset
+        rot_matrix.append(data2)  # 把这一行的结果作为元素加入列表dataset
         if i == 2:
             break
-    dataset = np.array(dataset)
-    print(dataset)
-    R = dataset.astype(dtype='float32')
-    # change to euler angle
+    rot_matrix = np.array(rot_matrix)
+    # print(rot_matrix)
+    R = rot_matrix.astype(dtype='float32')
+    # transform to euler angle
     roll = -np.arctan2(R[1][0], R[0][0]) * 180 / np.pi
     yaw = -np.arctan2(-R[2][0], np.sqrt(R[2][1] ** 2 + R[2][2] ** 2)) * 180 / np.pi
     pitch = np.arctan2(R[2][1], R[2][2]) * 180 / np.pi
@@ -35,10 +33,11 @@ def load_sample(image_path, notation_path, img_tgt_shape):
     img = img.resize((img_tgt_shape[0], img_tgt_shape[1]), Image.ANTIALIAS)
     img = np.array(img)
     if img.shape != tuple(img_tgt_shape):    # TODO: omit batch size??? Necessary?(changed)
-        print(img.shape, image_path)
+        print('[load_sample]: Unexpected img form found: ', img.shape, image_path)
     # Get label array
     label = get_euler_angles(notation_path)
-    return (img, label)
+
+    return img, label
 
 
 def load_data(img_datadir, label_dir, input_shape, partition_proportion=0.6):
@@ -54,7 +53,7 @@ def load_data(img_datadir, label_dir, input_shape, partition_proportion=0.6):
     for subdir in subdir_list:
         if not subdir.isdigit():   # pass non-data folder
             continue
-        img_lists = os.listdir(subdir)
+        img_lists = os.listdir(os.path.join(img_datadir, subdir))
         for img_name in img_lists:
             # get image to train_x
             if img_name.endswith(".png"):
@@ -66,22 +65,27 @@ def load_data(img_datadir, label_dir, input_shape, partition_proportion=0.6):
                 (img, label) = load_sample(img_path, notation_path=label_path, img_tgt_shape=input_shape)
                 data_x.append(img)
                 data_y.append(label)
-        print("count:", samples_counter)
+            else:
+                print('[load_sample]: Unexpected img form found: {} in subdir {}'.format(img_name, subdir))
+
+        print("[load_data]: Subdir {} finished, count:{}".format(subdir, samples_counter))
 
     data_x = np.array(data_x)
     data_y = np.array(data_y)
     # data_y = np.reshape(data_y, (len(train_y), 1))
     # Split data into training and testing sets
-    train_x, test_x, train_y, test_y = train_test_split(data_x, data_y, test_size=1 - partition_proportion, stratify=data_y)
+    train_x, test_x, train_y, test_y = train_test_split(data_x, data_y, test_size=1 - partition_proportion)
 
-    print('[load_data] Training set size: %d, Testing set size: %d; Total:%d' % (len(train_x), len(test_x), len(train_x) + len(test_x)))
+    print('[load_data] Loading completed. Training set size: %d, Testing set size: %d; Total:%d'
+          % (len(train_x), len(test_x), len(train_x) + len(test_x)))
     return train_x, train_y, test_x, test_y
 
 
 if __name__ == "__main__":
     data_dir = "/Users/leon/Downloads/Biwi Kinect Head Pose Database/hpdb_face_intercepted"
     label_dir = "/Users/leon/Downloads/Biwi Kinect Head Pose Database/hpdb"
-    print(" Images data directory:", datadir)
-    train_x, train_y, test_x, test_y = load_data(datadir, input_shape=(32, 32, 3), partition_proportion=0.4)
+    print(" Images data directory:", data_dir)
+    train_x, train_y, test_x, test_y = load_data(data_dir, label_dir, input_shape=(32, 32, 3), partition_proportion=0.6)
     np.savez('hpdb_data', train_x=train_x, train_y=train_y, test_x=test_x, test_y=test_y)
+    print('Data successfully saved as %s' % os.path.join(os.getcwd(), 'hpdb_data'))
 
